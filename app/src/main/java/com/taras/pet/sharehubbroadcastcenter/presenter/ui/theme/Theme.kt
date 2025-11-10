@@ -1,6 +1,5 @@
-package com.taras.pet.sharehubbroadcastcenter.ui.theme
+package com.taras.pet.sharehubbroadcastcenter.presenter.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

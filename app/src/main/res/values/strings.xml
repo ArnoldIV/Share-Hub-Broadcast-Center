@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ShareHubBroadcastCenter</string>
+    <string name="share_tab">Share</string>
+    <string name="system_events_tab">System Events</string>
 </resources>
