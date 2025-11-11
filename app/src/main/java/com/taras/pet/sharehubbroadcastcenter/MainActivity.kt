@@ -1,11 +1,14 @@
 package com.taras.pet.sharehubbroadcastcenter
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -17,10 +20,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -59,22 +64,53 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ShareHubBroadcastCenterTheme {
-                AppScaffold()
+                AppScaffold(intent = intent)
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+    }
+}
+
+fun isShareIntent(intent: Intent?): Boolean {
+    return when (intent?.action) {
+        Intent.ACTION_SEND,
+        Intent.ACTION_SEND_MULTIPLE,
+        Intent.ACTION_VIEW -> true
+        else -> false
     }
 }
 
 @Composable
-fun AppScaffold() {
+fun AppScaffold(intent: Intent? = null) {
     val navController = rememberNavController()
-  
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(30.dp),
+                ) {
+                    Text(
+                        stringResource(
+                            if (currentRoute == "share"){
+                                R.string.share_tab
+                            } else {
+                                R.string.system_events_tab
+                            }
+                        ),
+                    )
+                }
+        },
         bottomBar = {
             BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
 
                 bottomNavItems.forEach { item ->
                     BottomNavigationItem(
@@ -100,13 +136,15 @@ fun AppScaffold() {
             }
         }
     ) { paddingValues ->
+        val startDestination = if (isShareIntent(intent)) "share" else "share"
+
         NavHost(
             navController = navController,
-            startDestination = "share",
+            startDestination = startDestination,
             modifier = Modifier.padding(paddingValues)
         ) {
             composable("share") {
-                ShareScreen()
+                ShareScreen(intent = intent)
             }
             composable("system_events") {
                 SystemEventsScreen()

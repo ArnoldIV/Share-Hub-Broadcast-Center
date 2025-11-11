@@ -42,11 +42,43 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
 
-            <!-- Receiving images -->
+            <!-- Receiving image -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <!-- Receiving images -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+
+            <!-- Receiving video -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+
+            <!-- Receiving audio -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+
+            <!-- Receiving pdf -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" />
             </intent-filter>
 
             <!-- Link handling (e.g. http/https) -->
@@ -59,7 +91,7 @@
             </intent-filter>
         </activity>
 
-        <!-- BroadcastReceivers для BroadcastCenter -->
+        <!-- BroadcastReceivers for BroadcastCenter -->
         <receiver
             android:name=".data.receivers.BatteryReceiver"
             android:enabled="true"
