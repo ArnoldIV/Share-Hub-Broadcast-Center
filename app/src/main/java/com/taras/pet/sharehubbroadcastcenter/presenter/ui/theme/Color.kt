@@ -1,4 +1,4 @@
-package com.taras.pet.sharehubbroadcastcenter.ui.theme
+package com.taras.pet.sharehubbroadcastcenter.presenter.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
